@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: squirrel-api
+  namespace: anz-name-space
+  labels:
+    app: squirrel-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: squirrel-api
+  template:
+    metadata:
+      labels:
+        app: squirrel-api
+    spec:
+      containers:
+        - name: squirrel-api
+          image: anil16/squirrel-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "kubernetes"
+            - name: LOAD_BALANCER_ADDRESS
+              value: 35.244.112.73
+
+#      imagePullSecrets:
+#        - name: regcred

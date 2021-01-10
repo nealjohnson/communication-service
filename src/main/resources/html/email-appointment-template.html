@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>Scheduler Squirrel</title>
+</head>
+<body>
+<p>Dear <span th:text="${addresseName}"></span></p>
+<p>
+    Your appointment has been confirmed with <span th:text="${senderName}"></span> on <span th:text="${appointmentDateTime}"></span>
+</p>
+
+<p>You can join appointment by clicking on following link at <span th:text="${appointmentDateTime}"></span>.
+    <span th:text="${senderName}"></span>  would also be joining for consultation at same time. </p>
+
+<a th:href="${linkToBeShown}">click here to join appointment</a>
+
+<p>Regards,</p>
+<p>Squirrel Team</p>
+</body>
+</html>
