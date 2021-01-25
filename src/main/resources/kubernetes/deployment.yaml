@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: squirrel-api
+  name: communication-service
   namespace: anz-name-space
   labels:
-    app: squirrel-api
+    app: communication-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: squirrel-api
+      app: communication-service
   template:
     metadata:
       labels:
-        app: squirrel-api
+        app: communication-service
     spec:
       containers:
-        - name: squirrel-api
-          image: anil16/squirrel-api
+        - name: communication-service
+          image: anil16/communication-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -26,6 +26,7 @@ spec:
               value: "kubernetes"
             - name: LOAD_BALANCER_ADDRESS
               value: 35.244.112.73
-
+            - name: jasypt.encryptor.password
+              value: Anil@123
 #      imagePullSecrets:
 #        - name: regcred
