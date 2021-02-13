@@ -11,6 +11,8 @@ import com.squirrel.communication.service.impl.AccountCreationEmailService;
 import com.squirrel.communication.service.impl.AppointmentCreationEmailService;
 import com.squirrel.communication.service.impl.MessageCreationEmailService;
 import com.squirrel.communication.service.impl.PrescriptionCreationEmailService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -28,6 +30,8 @@ public class CommunicationController extends AbstractController {
 
     private JavaMailSender sender;
     private TemplateEngine templateEngine;
+    private static final Log logger = LogFactory.getLog(CommunicationController.class);
+
 
     @KafkaListener(topics = "${spring.kafka.consumer.topic}", groupId = "channel1")
     public void listen(ConsumerRecord<String, String> record) throws JsonProcessingException {
@@ -69,6 +73,7 @@ public class CommunicationController extends AbstractController {
                 default:
                     throw new IllegalStateException("Unexpected value: " + emailModel.getEmailType());
             }
+            logger.info(String.format("Email model contents %s",emailModel));
             emailService.sendEmail(emailModel);
             return convertToResponseModel(Boolean.TRUE);
         } catch (Exception e) {

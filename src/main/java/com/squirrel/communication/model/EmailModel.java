@@ -35,5 +35,5 @@ public class EmailModel {
     private String senderPhoneNumber;
     private String  prescription;
 
-
+    private boolean sendAttachment;
 }

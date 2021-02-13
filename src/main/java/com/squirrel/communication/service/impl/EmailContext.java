@@ -1,5 +1,6 @@
 package com.squirrel.communication.service.impl;
 
+import com.lowagie.text.DocumentException;
 import com.squirrel.communication.model.EmailModel;
 import com.squirrel.communication.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 
 @Component
 public class EmailContext {
@@ -23,7 +25,7 @@ public class EmailContext {
         this.templateEngine = templateEngine;
     }
 
-    public void sendEmail(EmailModel emailInfoModel , EmailTypeEnum emailTypeEnum ) throws MessagingException {
+    public void sendEmail(EmailModel emailInfoModel , EmailTypeEnum emailTypeEnum ) throws MessagingException, IOException, DocumentException {
         EmailService emailService;
         switch (emailTypeEnum){
             case ACCOUNT:
