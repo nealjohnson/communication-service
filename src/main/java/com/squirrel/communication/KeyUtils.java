@@ -30,7 +30,6 @@ public class KeyUtils {
     public static PrivateKey readKeyFile(String filePath) throws IOException, PKCSException, NoSuchAlgorithmException, InvalidKeySpecException {
         Security.addProvider(new BouncyCastleProvider());
         File file = ResourceUtils.getFile(filePath);
-        logger.info(String.format("path is %s  and %s and %s ", filePath ,file.exists(), file));
         PemReader pemReader = new PemReader(new InputStreamReader(new FileInputStream(file)));
         KeyFactory factory = KeyFactory.getInstance("ECDSA", new BouncyCastleProvider());
         byte[] content = pemReader.readPemObject().getContent();
@@ -48,7 +47,7 @@ public class KeyUtils {
 
     //TODO this works but needs to be refactored.
     public static void signPdf(File file) throws IOException, com.itextpdf.text.DocumentException, GeneralSecurityException, PKCSException {
-
+        logger.info(String.format("Start : Signing the pdf file %s", file.getName()));
         PrivateKey privateKey = KeyUtils.readKeyFile(keyPath);
         X509Certificate certificate = KeyUtils.readCertificate(certificatePath);
 
@@ -57,10 +56,11 @@ public class KeyUtils {
         PdfWriter writer = PdfWriter.getInstance(doc,new FileOutputStream(outFile));
         doc.open();
         PdfReader reader = new PdfReader(new FileInputStream(file));
-        int n;
-        n = reader.getNumberOfPages();
-        System.out.println("No. of Pages :" +n);
-        for (int i = 1; i <= n; i++) {
+        int numberOfPages = reader.getNumberOfPages();
+        logger.info(String.format("Total no of pages %s", numberOfPages));
+
+        System.out.println();
+        for (int i = 1; i <= numberOfPages; i++) {
             if (i == 1) {
                 Rectangle rect = new Rectangle(85, 650, 800, 833);
                 PdfFormField pushButton = PdfFormField.createPushButton(writer);
@@ -85,7 +85,7 @@ public class KeyUtils {
         ExternalSignature pks = new PrivateKeySignature(privateKey, "SHA512", "BC");
         ExternalDigest digest = new BouncyCastleDigest();
         MakeSignature.signDetached(appearance, digest, pks, new X509Certificate[]{certificate}, null, null, null, 0, MakeSignature.CryptoStandard.CMS);
-
+        logger.info(String.format("End : Signing the pdf file successful %s", file.getName()));
 
     }
 }

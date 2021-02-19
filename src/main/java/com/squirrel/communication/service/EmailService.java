@@ -1,16 +1,10 @@
 package com.squirrel.communication.service;
 
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.*;
-import com.itextpdf.text.pdf.security.*;
 import com.squirrel.communication.KeyUtils;
 import com.squirrel.communication.model.EmailModel;
 import com.squirrel.communication.service.impl.EmailTypeEnum;
-import org.apache.commons.lang.time.DateUtils;
-import org.bouncycastle.pkcs.PKCSException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,20 +16,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.security.GeneralSecurityException;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
-import java.util.Calendar;
-import java.util.Date;
-
 
 public abstract class EmailService {
 
     private JavaMailSender sender;
     private TemplateEngine templateEngine;
-
-
+    private static final Log logger = LogFactory.getLog(EmailService.class);
 
     protected EmailService(JavaMailSender sender, TemplateEngine templateEngine) {
         this.sender = sender;
@@ -59,7 +45,7 @@ public abstract class EmailService {
             try {
                KeyUtils.signPdf(file);
             }catch (Exception e){
-                e.printStackTrace();
+                logger.error(e);
             }
             helper.addAttachment(file.getName(), file);
             emailText = templateEngine.process("html/email-general-template.html", ctx);
