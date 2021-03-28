@@ -24,7 +24,7 @@ public class EmailModel {
 
     //For appointment Email
     private String linkToBeShown;
-    private DateTime appointmentDateTime;
+    private Long appointmentDateTime;
 
 
     //for prescription email
