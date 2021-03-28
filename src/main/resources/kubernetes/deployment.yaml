@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: communication-service
-          image: anil16/communication-service
+          image: squirrel.jfrog.io/squirrel-communication-service/communication-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -28,5 +28,5 @@ spec:
               value: 35.244.112.73
             - name: jasypt.encryptor.password
               value: Anil@123
-#      imagePullSecrets:
-#        - name: regcred
+      imagePullSecrets:
+        - name: registrypullsecret
