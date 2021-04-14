@@ -4,9 +4,10 @@ metadata:
   name: communication-service
   namespace: anz-name-space
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 8085
+      protocol: TCP
   selector:
-    app: squirrel-api
+    app: communication-service

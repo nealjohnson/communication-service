@@ -27,6 +27,6 @@ spec:
             - name: LOAD_BALANCER_ADDRESS
               value: 35.244.112.73
             - name: jasypt.encryptor.password
-              value: Anil@123
+              value: Prod@11/12
       imagePullSecrets:
         - name: registrypullsecret
